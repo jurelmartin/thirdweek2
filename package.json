@@ -1,0 +1,32 @@
+{
+  "name": "week3project",
+  "version": "1.0.0",
+  "description": "3rd Week Project REST API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jurelmartin/thirdweek.git"
+  },
+  "author": "jorelleagustin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jurelmartin/thirdweek/issues"
+  },
+  "homepage": "https://github.com/jurelmartin/thirdweek#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "e": "0.0.4",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.0",
+    "mongodb": "^3.4.0",
+    "mongoose": "^5.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
