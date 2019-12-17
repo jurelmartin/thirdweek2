@@ -1,6 +1,7 @@
 
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const jsonwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
@@ -75,6 +76,11 @@ exports.patchUser = async (request, response, next) => {
     const newUserData = request.body;
     const user = await User.findById(userId);
 
+    if(request.body.password){
+        const hashedPassword = await bcrypt.hash(request.body.password, 12);
+        request.body.password = hashedPassword;
+    }
+
     try {
         const result = await user.update({$set: newUserData});
         response.status(200).json(result);
@@ -102,3 +108,4 @@ exports.deleteUser = async (request, response, next) => {
           next(err);
     }
 };
+
