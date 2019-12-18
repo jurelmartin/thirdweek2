@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jsonwt = require('jsonwebtoken');
 
 const User = require('../models/user');
@@ -22,7 +22,9 @@ exports.isMatch = async (request, response, next) => {
         }
         const token = jsonwt.sign({
             email: activeUser.email,
-            userId: activeUser._id.toString()
+            userId: activeUser._id.toString(),
+            permissionLevel: activeUser.permissionLevel
+
         },
         'mysecretprivatekey', { expiresIn: '1h' });
         response.status(200).json({ token: token, userId: activeUser._id.toString() });
