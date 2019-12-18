@@ -8,10 +8,11 @@ const User = require('../models/user');
 exports.createUser = async (request, response, next) => {
     const errors = validationResult(request);
     if(!errors.isEmpty()) {
-        const error = new Error('Validation failed.');
-        error.statusCode = 422;
-        error.data = errors.array();
-        throw error;
+        return response.status(422).json({ message: 'Validation failed', errors: errors.array() });
+        // const error = new Error('Validation failed.');
+        // error.statusCode = 422;
+        // error.data = errors.array();
+        // throw error;
     }
     const firstName = request.body.firstName;
     const lastName = request.body.lastName;
@@ -72,6 +73,10 @@ exports.getUser = async (request, response, next) => {
 
 
 exports.patchUser = async (request, response, next) => {
+    const errors = validationResult(request);
+    if(!errors.isEmpty()) {
+        return response.status(422).json({ message: 'Validation failed', errors: errors.array() });
+    }
     const userId = request.userId;
     const newUserData = request.body;
     const user = await User.findById(request.params.userId);
