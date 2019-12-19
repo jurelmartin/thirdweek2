@@ -3,16 +3,14 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jsonwt = require('jsonwebtoken');
 
+
+
 const User = require('../models/user');
 
 exports.createUser = async (request, response, next) => {
     const errors = validationResult(request);
     if(!errors.isEmpty()) {
         return response.status(422).json({ message: 'Validation failed', errors: errors.array() });
-        // const error = new Error('Validation failed.');
-        // error.statusCode = 422;
-        // error.data = errors.array();
-        // throw error;
     }
     const firstName = request.body.firstName;
     const lastName = request.body.lastName;
@@ -89,7 +87,8 @@ exports.patchUser = async (request, response, next) => {
     if("permissionLevel" in obj) {
         if(request.permissionLevel === 1) {
             user.update({$set: newUserData});
-            response.status(200).json({ message: 'Updated successfully!' });
+            console.log(newUserData);
+            return response.status(200).json({ message: 'Updated successfully!' });
         }
         else {
             return response.status(401).json({ message: 'Not Authorized!!' });
@@ -97,8 +96,15 @@ exports.patchUser = async (request, response, next) => {
     }
 
     try {
-        const result = await user.update({$set: newUserData});
-        response.status(200).json({ message: 'Updated successfully!' });
+        if(userId !== request.params.userId){
+            return response.status(401).json({ message: 'Not allowed to change!!!' });
+        }
+        else {
+            console.log(newUserData);
+            const result = await user.update({$set: newUserData});
+            response.status(200).json({ message: 'Updated successfully!' });
+        }
+        
     }
     catch (err) {
         if (!err.statusCode) {
@@ -130,4 +136,3 @@ exports.deleteUser = async (request, response, next) => {
           next(err);
     }
 };
-

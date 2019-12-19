@@ -12,4 +12,7 @@ const User = require('../models/user');
 
 router.post('/login', authController.isMatch);
 
+router.post('/token' , authController.newToken);
+
+
 module.exports = router;
