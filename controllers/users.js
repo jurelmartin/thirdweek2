@@ -116,10 +116,12 @@ exports.patchUser = async (request, response, next) => {
 
 exports.deleteUser = async (request, response, next) => {
     const userId = request.params.userId;
-    const user = await User.findById(userId);
-
 
     try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return response.status(401).json({ message: 'Could not find user...' });
+        }
         if(request.permissionLevel === 1) {
             const result = await user.remove({_id: userId});
             return response.status(200).json({ message: 'User Deleted!' });
