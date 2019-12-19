@@ -116,7 +116,7 @@ exports.deleteUser = async (request, response, next) => {
     try {
         if(request.permissionLevel === 1) {
             const result = await user.remove({_id: userId});
-            response.status(200).json({ message: 'User Deleted!' });
+            return response.status(200).json({ message: 'User Deleted!' });
         }
         else {
             return response.status(401).json({ message: 'Not Authorized!!' });

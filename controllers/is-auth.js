@@ -13,12 +13,12 @@ exports.isMatch = async (request, response, next) => {
     try {
         const user = await User.findOne({ email: email });
         if (!user) {
-            response.status(401).json({ message: 'Email does not exist!' });
+            return response.status(401).json({ message: 'Email does not exist!' });
         }
         activeUser = user;
         const isEqual = await bcrypt.compare(password, user.password);
         if (!isEqual) {
-            response.status(401).json({ message: 'Incorrect password!' });
+            return response.status(401).json({ message: 'Incorrect password!' });
         }
         const token = jsonwt.sign({
             email: activeUser.email,
@@ -27,7 +27,7 @@ exports.isMatch = async (request, response, next) => {
 
         },
         'mysecretprivatekey', { expiresIn: '1h' });
-        response.status(200).json({ token: token, userId: activeUser._id.toString() });
+        return response.status(200).json({ token: token, userId: activeUser._id.toString() });
         
     }
     catch (err) {
