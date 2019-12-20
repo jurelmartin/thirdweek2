@@ -71,11 +71,12 @@ exports.getUser = async (request, response, next) => {
 
 
 exports.patchUser = async (request, response, next) => {
+
     const errors = validationResult(request);
     if(!errors.isEmpty()) {
         return response.status(422).json({ message: 'Validation failed', errors: errors.array() });
     }
-    const userId = request.userId;
+    const userId = await request.userId;
     const newUserData = request.body;
     const user = await User.findById(request.params.userId);
 
@@ -83,36 +84,44 @@ exports.patchUser = async (request, response, next) => {
         const hashedPassword = await bcrypt.hash(request.body.password, 12);
         request.body.password = hashedPassword;
     }
-    let obj = Object(newUserData);
-    if("permissionLevel" in obj) {
-        if(request.permissionLevel === 1) {
-            if(userId !== request.params.userId){
-            user.update({$set: newUserData});
-            return response.status(200).json({ message: 'Updated successfully!' });
-            }
-        }
-        else {
-            return response.status(401).json({ message: 'Not Authorized!!' });
-        }
-    }
 
     try {
-        if(userId !== request.params.userId){
-            return response.status(401).json({ message: 'Not allowed to change!!!' });
+        if (!user) {
+            return response.status(401).json({ message: 'Could not find user...' });
         }
         else {
-            console.log(newUserData);
-            const result = await user.update({$set: newUserData});
-            response.status(200).json({ message: 'Updated successfully!' });
+            let obj = Object(newUserData);
+            if("permissionLevel" in obj) {
+                if(request.permissionLevel === 1 ) {
+                const result = await user.update({$set: newUserData});
+                return response.status(200).json({ message: 'Updated successfully!' });
+                }
+                else {
+                    return response.status(401).json({ message: 'Not permitted!!' });
+                }
+            }
+
+            if(userId === request.params.userId) {
+                const result = await user.update({$set: newUserData});
+                return response.status(200).json({ message: 'Updated successfully!' });
+            }
+
+            if((userId !== request.params.userId) && (request.permissionLevel === 1)) {
+                const result = await user.update({$set: newUserData});
+                return response.status(200).json({ message: 'Updated successfully!' });
+            }
+            else {
+                return response.status(401).json({ message: 'Not allowed to change!!!' });
+            }
         }
-        
     }
     catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
-          }
+        }
           next(err);
     }
+
 };
 
 exports.deleteUser = async (request, response, next) => {

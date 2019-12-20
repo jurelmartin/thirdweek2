@@ -51,17 +51,18 @@ exports.userAndAdminPermission = (request, response, next) => {
 
     if (request.params && request.params.userId && userId === request.params.userId) {
         //response.status(200).json({ message: 'Updated successfully!' });
-        return next();
+         next();
     }
     else {
-        if (activeUserPermissionLevel & requiredPermissionLevel) {
+        if (activeUserPermissionLevel && requiredPermissionLevel) {
             //response.status(200).json({ message: 'Updated successfully!' });
-            return next();
+             next();
         } 
         else {
             //response.status(200).json({ message: 'Updated successfully!' });
-            return next();
+             next();
         }
     }
+
   
 }
