@@ -86,9 +86,10 @@ exports.patchUser = async (request, response, next) => {
     let obj = Object(newUserData);
     if("permissionLevel" in obj) {
         if(request.permissionLevel === 1) {
+            if(userId !== request.params.userId){
             user.update({$set: newUserData});
-            console.log(newUserData);
             return response.status(200).json({ message: 'Updated successfully!' });
+            }
         }
         else {
             return response.status(401).json({ message: 'Not Authorized!!' });
