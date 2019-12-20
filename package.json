@@ -1,24 +1,24 @@
 {
   "name": "week3project",
   "version": "1.0.0",
-  "description": "3rd Week Project REST API",
+  "description": "3rd Week Project GraphQl",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "MONGO_USER=thirdweek MONGO_PASSWORD=xDztVmUhJKMIiFT2 MONGO_DEFAULT_DATABASE=restapi node app.js",
+    "start": "MONGO_USER=thirdweek2 MONGO_PASSWORD=hctkhn3BWf58POV4 MONGO_DEFAULT_DATABASE=graphql node app.js",
     "start-server": "node app.js",
     "start:dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jurelmartin/thirdweek.git"
+    "url": "git+https://github.com/jurelmartin/thirdweek2.git"
   },
   "author": "jorelleagustin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jurelmartin/thirdweek/issues"
+    "url": "https://github.com/jurelmartin/thirdweek2/issues"
   },
-  "homepage": "https://github.com/jurelmartin/thirdweek#readme",
+  "homepage": "https://github.com/jurelmartin/thirdweek2#readme",
   "dependencies": {
     "bcrypt": "^3.0.7",
     "bcryptjs": "^2.4.3",

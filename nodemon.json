@@ -1,7 +1,7 @@
 {
     "env": {
-        "MONGO_USER": "thirdweek",
-        "MONGO_PASSWORD": "xDztVmUhJKMIiFT2",
-        "MONGO_DEFAULT_DATABASE": "restapi"
+        "MONGO_USER": "thirdweek2",
+        "MONGO_PASSWORD": "hctkhn3BWf58POV4",
+        "MONGO_DEFAULT_DATABASE": "graphql"
     }
 } 
